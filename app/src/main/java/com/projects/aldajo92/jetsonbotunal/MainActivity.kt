@@ -1,66 +1,47 @@
 package com.projects.aldajo92.jetsonbotunal
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import com.google.gson.Gson
-import io.socket.client.IO
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.lineaChart_entries
+import kotlinx.android.synthetic.main.activity_main.send
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var mSocket: Socket
+class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
+
     private val userName: String = "hELLO"
     private val roomName: String = "ROOM"
 
-    private val objectGSon by lazy { Gson() }
+    private val lineChartWrapper by lazy {
+        LineChartWrapper.getInstance(lineaChart_entries)
+    }
+
+    private val socketManager by lazy {
+        SocketManager(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        send.setOnClickListener(this)
+        socketManager.connect()
 
-        try {
-            mSocket = IO.socket("http://192.168.0.245:6666")
-            Log.d("success", mSocket.id())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d("fail", "Failed to connect")
-        }
-
-        mSocket.connect()
-        mSocket.on(Socket.EVENT_CONNECT, connectedEvent)
-        mSocket.on("robot-message", robotMessage)
-    }
-
-    var connectedEvent = Emitter.Listener {
-        Log.i("ADJGF_TAG", "connected")
-    }
-
-    var robotMessage = Emitter.Listener {
-        Log.i("ADJGF_TAG", Arrays.toString(it))
+        send.setOnClickListener{ sendMessage() }
     }
 
     private fun sendMessage() {
-        val content = "hello"
-        val sendData = SendMessage(userName, content, roomName)
-        val jsonData = objectGSon.toJson(sendData)
-        mSocket.emit("newMessage", jsonData)
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0!!.id) {
-            R.id.send -> sendMessage()
-        }
+        val sendData = SendMessage(userName, "hello", roomName)
+        socketManager.sendData(sendData)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mSocket.disconnect()
+        socketManager.disconnect()
     }
+
+    override fun onDataReceived(robotMessage: RobotMessage) {
+        Log.i("ADJGF_TAG", robotMessage.toString())
+        lineChartWrapper.addValue(robotMessage.value)
+    }
+
 }
