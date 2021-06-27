@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
     }
 
     private fun sendMessage() {
-        val sendData = SendMessage(userName, "hello", roomName)
-        socketManager.sendData(sendData)
+//        val sendData = SendMessage(userName, "hello", roomName)
+//        socketManager.sendData(sendData)
     }
 
     override fun onDestroy() {
@@ -39,9 +39,9 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         socketManager.disconnect()
     }
 
-    override fun onDataReceived(robotMessage: RobotMessage) {
-        Log.i("ADJGF_TAG", robotMessage.toString())
-        lineChartWrapper.addValue(robotMessage.value)
+    override fun onDataReceived(robotVelocityEncoder: RobotVelocityEncoder) {
+        Log.i("ADJGF_TAG", robotVelocityEncoder.toString())
+        lineChartWrapper.addValue(robotVelocityEncoder.velocityEncoder)
     }
 
 }

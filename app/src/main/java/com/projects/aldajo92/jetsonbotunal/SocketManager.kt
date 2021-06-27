@@ -30,7 +30,7 @@ class SocketManager(private val socketListener: SocketListener) {
     }
 
     private val robotMessage = Emitter.Listener {
-        val robotMessage = objectGSon.fromJson(it[0].toString(), RobotMessage::class.java)
+        val robotMessage = objectGSon.fromJson(it[0].toString(), RobotVelocityEncoder::class.java)
         socketListener.onDataReceived(robotMessage)
     }
 
@@ -44,7 +44,7 @@ class SocketManager(private val socketListener: SocketListener) {
     }
 
     interface SocketListener {
-        fun onDataReceived(robotMessage : RobotMessage)
+        fun onDataReceived(robotVelocityEncoder : RobotVelocityEncoder)
     }
 
 }

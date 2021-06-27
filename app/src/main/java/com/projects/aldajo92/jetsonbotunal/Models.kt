@@ -1,10 +1,15 @@
 package com.projects.aldajo92.jetsonbotunal
 
-data class RobotMessage(
-    val value: Float,
-    val message: String,
-    val type: String
+data class RobotVelocityEncoder(
+    val velocityEncoder: Float
 )
 
-data class initialData(val userName: String, val roomName: String)
-data class SendMessage(val userName: String, val messageContent: String, val roomName: String)
+data class RobotImu(
+    val velocity: Float,
+    val magnet: Float
+)
+
+data class MoveRobotMessage(
+    val steeringValue: String,
+    val throttle: String
+)
