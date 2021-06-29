@@ -78,11 +78,9 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
 
             val movementMessage = MoveRobotMessage(ly, rx)
             if (abs(joyLy) >= minMovement || abs(joyRx) >= minMovement) {
-//                globalTimer = runCommandTimer(movementMessage)
                 sendMessage(movementMessage)
                 alreadyOnZero = false
             } else if (abs(joyLy) < minMovement && abs(joyRx) < minMovement && !alreadyOnZero) {
-//                runStopTimer( MoveRobotMessage(0f, 0f))
                 sendMessage(movementMessage)
                 alreadyOnZero = true
             }
