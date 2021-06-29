@@ -47,6 +47,7 @@ ext {
 
     gson = "2.8.6"
     socketio = "2.0.0"
+    mpandroidchart = "v3.0.2"
 
     junit = "4.13.2"
     androidx_junit = "1.1.2"
@@ -74,7 +75,7 @@ dependencies {
     }
 
     // mpAndroidChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation "com.github.PhilJay:MPAndroidChart:$mpandroidchart"
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit"
