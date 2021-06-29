@@ -10,6 +10,6 @@ data class RobotImu(
 )
 
 data class MoveRobotMessage(
-    val steeringValue: String,
-    val throttle: String
+    val steering: Float,
+    val throttle: Float
 )
