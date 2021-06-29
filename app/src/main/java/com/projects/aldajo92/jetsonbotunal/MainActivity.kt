@@ -5,13 +5,7 @@ import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.lineaChart_entries
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.Timer
-import kotlin.concurrent.fixedRateTimer
 import kotlin.math.abs
 
 
@@ -28,25 +22,6 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         setContentView(R.layout.activity_main)
 
         socketManager.connect()
-    }
-
-    private fun runCommandTimer(value: Any): Timer = fixedRateTimer(
-        "timer",
-        true,
-        0,
-        200
-    ) {
-        sendMessage(value)
-    }
-
-    private fun runStopTimer(value: Any) {
-        CoroutineScope(Job() + Dispatchers.IO).launch {
-            val timer = runCommandTimer(value)
-            launch(Dispatchers.IO) {
-                delay(1000)
-                timer.cancel()
-            }
-        }
     }
 
     private fun sendMessage(message: Any) = socketManager.sendData(message)
