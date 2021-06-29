@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlin.collections.ArrayList
 
+// Class to be deleted
 class LineChartWrapper(
     private val lineChart: LineChart
 ) {

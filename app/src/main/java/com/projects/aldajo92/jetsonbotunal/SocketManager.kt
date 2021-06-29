@@ -13,7 +13,7 @@ class SocketManager(private val socketListener: SocketListener) {
 
     fun connect() {
         try {
-            mSocket = IO.socket(BASE_URL)
+            mSocket = IO.socket(DATA_SOCKET_PATH)
             Log.d("success", mSocket.id())
         } catch (e: Exception) {
             e.printStackTrace()
@@ -35,8 +35,9 @@ class SocketManager(private val socketListener: SocketListener) {
     }
 
     fun sendData(src: Any) {
+        Log.i("ADJGF_TAG", src.toString())
         val jsonData = objectGSon.toJson(src)
-        mSocket.emit("newMessage", jsonData)
+        mSocket.emit(ROBOT_COMMAND, jsonData)
     }
 
     fun disconnect() {
