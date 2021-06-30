@@ -17,6 +17,7 @@ class MultiRealTimeWrapper(
 
     fun configureChart() {
         chart.description.isEnabled = true
+        chart.description.textColor = Color.WHITE
 
         // touch gestures
         chart.setTouchEnabled(true)
@@ -51,18 +52,21 @@ class MultiRealTimeWrapper(
         val xl: XAxis = chart.xAxis
         xl.enableGridDashedLine(10f, 10f, 0f)
         xl.position = XAxis.XAxisPosition.BOTH_SIDED
+        xl.setDrawLabels(false)
         xl.granularity = 1f
 //        xl.isEnabled = false
 
         val leftAxis: YAxis = chart.axisLeft
         leftAxis.textColor = Color.WHITE
         leftAxis.granularity = 0.2f
-        leftAxis.axisMaximum = 1.1f
-        leftAxis.axisMinimum = -1.1f
+//        leftAxis.axisMaximum = 1.1f
+//        leftAxis.axisMinimum = -1.1f
         leftAxis.setDrawGridLines(true)
 
         val rightAxis: YAxis = chart.axisRight
-        rightAxis.isEnabled = false
+        rightAxis.isEnabled = true
+        leftAxis.setDrawGridLines(false)
+        rightAxis.setDrawLabels(false)
     }
 
     fun addEntries(values: List<Float>) {

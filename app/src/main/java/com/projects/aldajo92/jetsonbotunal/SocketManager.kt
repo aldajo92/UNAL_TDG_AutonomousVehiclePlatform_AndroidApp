@@ -35,7 +35,6 @@ class SocketManager(private val socketListener: SocketListener) {
     }
 
     fun sendData(src: Any) {
-        Log.i("ADJGF_TAG", src.toString())
         val jsonData = objectGSon.toJson(src)
         mSocket.emit(ROBOT_COMMAND, jsonData)
     }

@@ -8,6 +8,7 @@ import com.github.mikephil.charting.components.YAxis.AxisDependency
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
 
 class SingleRealTimeWrapper(
     private val chart: LineChart,
@@ -16,6 +17,7 @@ class SingleRealTimeWrapper(
 
     fun configureChart() {
         chart.description.isEnabled = true
+        chart.description.textColor = Color.WHITE
 
         // touch gestures
         chart.setTouchEnabled(true)
@@ -50,6 +52,7 @@ class SingleRealTimeWrapper(
         val xl: XAxis = chart.xAxis
         xl.enableGridDashedLine(10f, 10f, 0f)
         xl.position = XAxis.XAxisPosition.BOTH_SIDED
+        xl.setDrawLabels(false)
         xl.granularity = 1f
 //        xl.isEnabled = false
 
@@ -59,7 +62,9 @@ class SingleRealTimeWrapper(
         leftAxis.setDrawGridLines(true)
 
         val rightAxis: YAxis = chart.axisRight
-        rightAxis.isEnabled = false
+        rightAxis.isEnabled = true
+        leftAxis.setDrawGridLines(false)
+        rightAxis.setDrawLabels(false)
     }
 
     fun addEntry(y: Float) {
@@ -98,7 +103,7 @@ class SingleRealTimeWrapper(
         set.highLightColor = Color.rgb(244, 117, 117)
         set.valueTextColor = Color.WHITE
         set.valueTextSize = 9f
-        set.mode = LineDataSet.Mode.CUBIC_BEZIER
+        set.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         set.setDrawValues(false)
         return set
     }

@@ -6,26 +6,38 @@ import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.longdo.mjpegviewer.MjpegView
 import kotlinx.android.synthetic.main.activity_main.lineChart_control
-import kotlinx.android.synthetic.main.activity_main.lineaChart_entries
-import kotlinx.android.synthetic.main.activity_main.send
+import kotlinx.android.synthetic.main.activity_main.lineChart_input
+import kotlinx.android.synthetic.main.activity_main.lineaChart_output
 import kotlinx.android.synthetic.main.activity_main.videoView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Timer
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.fixedRateTimer
 import kotlin.math.abs
 
 
 class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
 
-    private val lineChartWrapper by lazy {
+    private val lineChartOutput by lazy {
         SingleRealTimeWrapper.getInstance(
-            lineaChart_entries,
+            lineaChart_output,
             Color.rgb(200, 200, 200)
+        )
+    }
+
+    private val lineChartInput by lazy {
+        SingleRealTimeWrapper.getInstance(
+            lineChart_input,
+            Color.rgb(244, 10, 10)
         )
     }
 
@@ -46,12 +58,9 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         setContentView(R.layout.activity_main)
         socketManager.connect()
 
-        send.setOnClickListener {
-            val movementMessage = MoveRobotMessage(0f, -0.5f)
-            sendMessage(movementMessage)
-        }
-
         startStream()
+
+        showRealtimeData()
 
 //        val scope = CoroutineScope(Job() + Dispatchers.IO)
 //        CoroutineScope(Job() + Dispatchers.IO).launch {
@@ -75,10 +84,29 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
     private fun runStopTimer(value: Any) {
         CoroutineScope(Job() + Dispatchers.IO).launch {
             val timer = runCommandTimer(value)
-            launch(Dispatchers.IO) {
+            launch(IO) {
                 delay(1000)
                 timer.cancel()
             }
+        }
+    }
+
+    private var counter = 0
+    private fun showRealtimeData() {
+//        CoroutineScope(Job() + Dispatchers.IO).launch {
+        fixedRateTimer("timer", true, 0, 100) {
+            CoroutineScope(IO).launch {
+                counter++
+                setValue(counter.toFloat())
+            }
+        }
+    }
+
+    private suspend fun setValue(value: Float) {
+        withContext(Main) {
+            lineChartOutput.addEntry(valueEncoder.get())
+            lineChartInput.addEntry(valueVelocitySent.get())
+//            realTimeChart.addEntries(listOf(value, 0f))
         }
     }
 
@@ -89,9 +117,11 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         socketManager.disconnect()
     }
 
+    var valueEncoder = AtomicReference(0f)
+    var valueVelocitySent = AtomicReference(0f)
     override fun onDataReceived(robotVelocityEncoder: RobotVelocityEncoder) {
 //        Log.i("ADJGF_TAG", robotVelocityEncoder.toString())
-        lineChartWrapper.addEntry(robotVelocityEncoder.velocityEncoder)
+        valueEncoder.set(robotVelocityEncoder.velocityEncoder)
     }
 
     private var globalTimer: Timer? = null
@@ -109,6 +139,8 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
 
             ly = if (abs(joyLy) >= minMovement) -joyLy else 0f
             rx = if (abs(joyRx) >= minMovement) -joyRx else 0f
+
+            valueVelocitySent.set(ly)
 
             val movementMessage = MoveRobotMessage(ly, rx)
             if (abs(joyLy) >= minMovement || abs(joyRx) >= minMovement) {
@@ -129,11 +161,9 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
 
     private fun startStream() {
         videoView.setUrl(VIDEO_STREAMING_PATH)
+        videoView.mode = MjpegView.MODE_FIT_HEIGHT
+        videoView.isAdjustWidth = true
         videoView?.startStream()
     }
 
-}
-
-fun Float.formatTwoDecimals(): String {
-    return "%.2f".format(this)
 }
