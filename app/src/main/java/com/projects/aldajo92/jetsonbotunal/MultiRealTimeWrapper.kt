@@ -32,9 +32,6 @@ class MultiRealTimeWrapper(
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(true)
 
-        // set an alternative background color
-//        chart.setBackgroundColor(Color.LTGRAY)
-
         val data = LineData()
         data.setValueTextColor(Color.WHITE)
 
@@ -42,25 +39,16 @@ class MultiRealTimeWrapper(
         chart.data = data
 
         chart.legend.isEnabled = false
-        // get the legend (only possible after setting data)
-//        val l: Legend = chart.legend
-//
-//        // modify the legend ...
-//        l.form = LegendForm.LINE
-//        l.textColor = Color.WHITE
 
         val xl: XAxis = chart.xAxis
         xl.enableGridDashedLine(10f, 10f, 0f)
         xl.position = XAxis.XAxisPosition.BOTH_SIDED
         xl.setDrawLabels(false)
         xl.granularity = 1f
-//        xl.isEnabled = false
 
         val leftAxis: YAxis = chart.axisLeft
         leftAxis.textColor = Color.WHITE
         leftAxis.granularity = 0.2f
-//        leftAxis.axisMaximum = 1.1f
-//        leftAxis.axisMinimum = -1.1f
         leftAxis.setDrawGridLines(true)
 
         val rightAxis: YAxis = chart.axisRight
@@ -94,6 +82,7 @@ class MultiRealTimeWrapper(
         }
     }
 
+    // TODO: Merge MultiRealTimeWrapper and SingleRealTimeWrapper
     fun addEntry(y: Float, i : Int) {
         val data: LineData? = chart.data
         if (data != null) {
