@@ -49,6 +49,8 @@ ext {
     socketio = "2.0.0"
     mpandroidchart = "v3.0.2"
 
+    ipcamview = "2.1.0"
+
     junit = "4.13.2"
     androidx_junit = "1.1.2"
     androidx_espresso = "3.3.0"
@@ -78,7 +80,9 @@ dependencies {
     implementation "com.github.PhilJay:MPAndroidChart:$mpandroidchart"
 
 //    implementation 'com.github.faizkhan12:mjpeg-view-android-kotlin:v1.0.0'
-    implementation 'com.github.perthcpe23:android-mjpeg-view:v1.0.9'
+//    implementation 'com.github.perthcpe23:android-mjpeg-view:v1.0.9'
+
+    implementation "com.github.niqdev:ipcam-view:$ipcamview"
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit"

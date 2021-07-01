@@ -1,12 +1,16 @@
 package com.projects.aldajo92.jetsonbotunal
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.view.InputDevice
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.longdo.mjpegviewer.MjpegView
+import com.github.niqdev.mjpeg.DisplayMode
+import com.github.niqdev.mjpeg.Mjpeg
+import com.github.niqdev.mjpeg.MjpegInputStream
+import com.github.niqdev.mjpeg.OnFrameCapturedListener
 import kotlinx.android.synthetic.main.activity_main.lineChart_control
 import kotlinx.android.synthetic.main.activity_main.lineChart_input
 import kotlinx.android.synthetic.main.activity_main.lineaChart_output
@@ -25,7 +29,7 @@ import kotlin.concurrent.fixedRateTimer
 import kotlin.math.abs
 
 
-class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
+class MainActivity : AppCompatActivity(), SocketManager.SocketListener, OnFrameCapturedListener {
 
     private val lineChartOutput by lazy {
         SingleRealTimeWrapper.getInstance(
@@ -51,6 +55,11 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         )
     }
 
+    private val mjpegView by lazy {
+        Mjpeg.newInstance()
+            .open(VIDEO_STREAMING_PATH, 100)
+    }
+
     private val socketManager by lazy { SocketManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +67,7 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         setContentView(R.layout.activity_main)
         socketManager.connect()
 
-        startStream()
+        startVideoStream()
 
         showRealtimeData()
 
@@ -93,7 +102,6 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
 
     private var counter = 0
     private fun showRealtimeData() {
-//        CoroutineScope(Job() + Dispatchers.IO).launch {
         fixedRateTimer("timer", true, 0, 100) {
             CoroutineScope(IO).launch {
                 counter++
@@ -106,7 +114,6 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         withContext(Main) {
             lineChartOutput.addEntry(valueEncoder.get())
             lineChartInput.addEntry(valueVelocitySent.get())
-//            realTimeChart.addEntries(listOf(value, 0f))
         }
     }
 
@@ -120,7 +127,6 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
     var valueEncoder = AtomicReference(0f)
     var valueVelocitySent = AtomicReference(0f)
     override fun onDataReceived(robotVelocityEncoder: RobotVelocityEncoder) {
-//        Log.i("ADJGF_TAG", robotVelocityEncoder.toString())
         valueEncoder.set(robotVelocityEncoder.velocityEncoder)
     }
 
@@ -144,11 +150,9 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
 
             val movementMessage = MoveRobotMessage(ly, rx)
             if (abs(joyLy) >= minMovement || abs(joyRx) >= minMovement) {
-//                globalTimer = runCommandTimer(movementMessage)
                 sendMessage(movementMessage)
                 alreadyOnZero = false
             } else if (abs(joyLy) < minMovement && abs(joyRx) < minMovement && !alreadyOnZero) {
-//                runStopTimer( MoveRobotMessage(0f, 0f))
                 sendMessage(movementMessage)
                 alreadyOnZero = true
             }
@@ -159,11 +163,17 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener {
         } else super.onGenericMotionEvent(event)
     }
 
-    private fun startStream() {
-        videoView.setUrl(VIDEO_STREAMING_PATH)
-        videoView.mode = MjpegView.MODE_FIT_HEIGHT
-        videoView.isAdjustWidth = true
-        videoView?.startStream()
+    private fun startVideoStream() {
+        mjpegView.subscribe { inputStream: MjpegInputStream? ->
+            videoView.setSource(inputStream)
+            videoView.setDisplayMode(DisplayMode.BEST_FIT)
+            videoView.showFps(true)
+        }
+        videoView.setOnFrameCapturedListener(this)
+    }
+
+    override fun onFrameCaptured(bitmap: Bitmap?) {
+
     }
 
 }
