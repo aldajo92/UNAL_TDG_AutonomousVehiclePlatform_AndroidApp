@@ -104,15 +104,4 @@ class LineChartWrapper(
         }
     }
 
-//    private fun addEntry(value: Float) {
-//        var size = 0
-//        if (linearEntryList != null) {
-//            size = linearEntryList.size
-//        }
-//        set1.addEntry(Entry(size.toFloat(), value))
-//        lineChart.data.notifyDataChanged()
-//        lineChart.notifyDataSetChanged()
-//        lineChart.invalidate()
-//    }
-
 }
