@@ -37,6 +37,7 @@ android {
 }
 
 ext {
+    kotlin_coroutines = "1.4.2"
     androidx_ktx = "1.5.0"
     androidx_appcompat = "1.3.0"
     androidx_constraintlayout = "2.0.4"
@@ -46,6 +47,9 @@ ext {
 
     gson = "2.8.6"
     socketio = "2.0.0"
+    mpandroidchart = "v3.0.2"
+
+    ipcamview = "2.1.0"
 
     junit = "4.13.2"
     androidx_junit = "1.1.2"
@@ -54,6 +58,8 @@ ext {
 
 dependencies {
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_ktx"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat"
@@ -71,7 +77,12 @@ dependencies {
     }
 
     // mpAndroidChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation "com.github.PhilJay:MPAndroidChart:$mpandroidchart"
+
+//    implementation 'com.github.faizkhan12:mjpeg-view-android-kotlin:v1.0.0'
+//    implementation 'com.github.perthcpe23:android-mjpeg-view:v1.0.9'
+
+    implementation "com.github.niqdev:ipcam-view:$ipcamview"
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit"
