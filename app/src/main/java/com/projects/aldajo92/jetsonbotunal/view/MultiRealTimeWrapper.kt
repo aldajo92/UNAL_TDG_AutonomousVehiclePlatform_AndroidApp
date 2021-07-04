@@ -1,4 +1,4 @@
-package com.projects.aldajo92.jetsonbotunal
+package com.projects.aldajo92.jetsonbotunal.view
 
 import android.graphics.Color
 import com.github.mikephil.charting.charts.LineChart
@@ -8,11 +8,11 @@ import com.github.mikephil.charting.components.YAxis.AxisDependency
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 
-class SingleRealTimeWrapper(
+
+class MultiRealTimeWrapper(
     private val chart: LineChart,
-    private val colorLines: Int
+    private val colorLines: List<Int>
 ) {
 
     fun configureChart() {
@@ -57,16 +57,42 @@ class SingleRealTimeWrapper(
         rightAxis.setDrawLabels(false)
     }
 
-    fun addEntry(y: Float) {
+    fun addEntries(values: List<Float>) {
+        val data: LineData? = chart.data
+        data?.let {
+            values.forEachIndexed { i, y ->
+                var set = data.getDataSetByIndex(i)
+                if (set == null) {
+                    set = createSet(colorLines[i]) // <-- add color as parameter here
+                    data.addDataSet(set)
+                }
+                data.addEntry(Entry(set.entryCount.toFloat(), y), i)
+                data.notifyDataChanged()
+
+                // let the chart know it's data has changed
+                chart.notifyDataSetChanged()
+
+                // limit the number of visible entries
+                chart.setVisibleXRangeMaximum(50F)
+                // chart.setVisibleYRange(30, AxisDependency.LEFT);
+
+                // move to the latest entry
+                chart.moveViewToX(data.entryCount.toFloat())
+            }
+        }
+    }
+
+    // TODO: Merge MultiRealTimeWrapper and SingleRealTimeWrapper
+    fun addEntry(y: Float, i : Int) {
         val data: LineData? = chart.data
         if (data != null) {
             // Here move to for
-            var set = data.getDataSetByIndex(0)
+            var set = data.getDataSetByIndex(i)
             if (set == null) {
-                set = createSet(colorLines)
+                set = createSet(colorLines[i])
                 data.addDataSet(set)
             }
-            data.addEntry(Entry(set.entryCount.toFloat(), y), 0)
+            data.addEntry(Entry(set.entryCount.toFloat(), y), i)
             data.notifyDataChanged()
 
             // let the chart know it's data has changed
@@ -93,14 +119,13 @@ class SingleRealTimeWrapper(
         set.highLightColor = Color.rgb(244, 117, 117)
         set.valueTextColor = Color.WHITE
         set.valueTextSize = 9f
-        set.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         set.setDrawValues(false)
         return set
     }
 
     companion object {
-        fun getInstance(chart: LineChart, colorLines: Int) =
-            SingleRealTimeWrapper(chart, colorLines).apply {
+        fun getInstance(chart: LineChart, colorLines: List<Int>) =
+            MultiRealTimeWrapper(chart, colorLines).apply {
                 configureChart()
             }
     }

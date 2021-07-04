@@ -1,7 +1,8 @@
-package com.projects.aldajo92.jetsonbotunal
+package com.projects.aldajo92.jetsonbotunal.models
 
 data class RobotVelocityEncoder(
-    val velocityEncoder: Float
+    val velocityEncoder: Float,
+    val input: Float
 )
 
 data class MoveRobotMessage(

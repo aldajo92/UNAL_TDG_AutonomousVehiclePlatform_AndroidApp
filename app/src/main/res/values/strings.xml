@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">JetsonBotUnal</string>
+    <string name="ok" />
+    <string name="cancel" />
+    <string name="local">Local IP</string>
+    <string name="remote">Remote</string>
+    <string name="Restart">restart</string>
 </resources>
