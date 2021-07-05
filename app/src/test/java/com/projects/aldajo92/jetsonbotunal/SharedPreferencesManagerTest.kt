@@ -44,7 +44,7 @@ class SharedPreferencesManagerTest {
         val remote = SharedPreferencesManager.IPConfigurations.REMOTE
 
         assertEquals(sharedPreferencesManager.getBaseUrl(localIP), "http://192.168.0.123:80")
-        assertNull(sharedPreferencesManager.getBaseUrl(remote), "https://jetsonbotunal.ngrok.io")
+        assertEquals(sharedPreferencesManager.getBaseUrl(remote), "https://jetsonbotunal.ngrok.io")
 
         sharedPreferencesManager.saveBaseURL(localIP, "192.169.89.1")
         sharedPreferencesManager.saveBaseURL(remote, "http://example.com")
