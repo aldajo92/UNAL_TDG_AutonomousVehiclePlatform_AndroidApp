@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener, OnFrameC
         startVideoStream()
 
         floating_settings_button.setOnClickListener {
-            val newFragment = ConfigurationDialogFragment()
+            val newFragment = ConfigurationDialog()
             newFragment.show(supportFragmentManager, "configuration")
         }
 
@@ -112,32 +112,6 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener, OnFrameC
         sendMessage(value)
     }
 
-//    private fun runStopTimer(value: Any) {
-//        CoroutineScope(Job() + Dispatchers.IO).launch {
-//            val timer = runCommandTimer(value)
-//            launch(IO) {
-//                delay(1000)
-//                timer.cancel()
-//            }
-//        }
-//    }
-
-//    private fun showRealtimeData() {
-//        fixedRateTimer("timer", true, 0, 100) {
-//            CoroutineScope(IO).launch {
-//                counter++
-//                setValue(counter.toFloat())
-//            }
-//        }
-//    }
-
-//    private suspend fun setValue(value: Float) {
-//        withContext(Main) {
-//            lineChartOutput.addEntry(valueEncoder.get())
-//            lineChartInput.addEntry(valueVelocitySent.get())
-//        }
-//    }
-
     private fun sendMessage(message: Any) = socketManager.sendData(message)
 
     override fun onDestroy() {
@@ -145,10 +119,7 @@ class MainActivity : AppCompatActivity(), SocketManager.SocketListener, OnFrameC
         socketManager.disconnect()
     }
 
-    //    var valueEncoder = AtomicReference(0f)
-//    var valueVelocitySent = AtomicReference(0f)
     override fun onDataReceived(robotVelocityEncoder: RobotVelocityEncoder) {
-//        valueEncoder.set(robotVelocityEncoder.velocityEncoder)
         lineChartOutput.addEntry(robotVelocityEncoder.velocityEncoder)
         lineChartInput.addEntry(robotVelocityEncoder.input)
 

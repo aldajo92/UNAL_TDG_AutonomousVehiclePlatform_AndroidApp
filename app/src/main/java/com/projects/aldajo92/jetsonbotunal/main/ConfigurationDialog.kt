@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.dialog_config.view.editText_remote
 import kotlinx.android.synthetic.main.dialog_config.view.radio_remote
 import kotlinx.android.synthetic.main.dialog_config.view.radio_local_ip
 
-class ConfigurationDialogFragment : DialogFragment() {
+class ConfigurationDialog : DialogFragment() {
 
     private val sharedPreferencesManager by lazy { SharedPreferencesManager(requireContext()) }
 
@@ -85,9 +85,7 @@ class ConfigurationDialogFragment : DialogFragment() {
     }
 
     private fun onButtonClicked(view: View) {
-        if (view is Button) {
-//            val value = sharedPreferencesManager.getStoredIPConfiguration().value
-//            Toast.makeText(requireContext(), " $value", Toast.LENGTH_LONG).show()
+        if (view.id == R.id.button_restart) {
             restartActivity()
         }
     }
