@@ -93,6 +93,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation 'com.konaire.numeric-keyboard:numeric-keyboard:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation "androidx.test:core:$androidx_core"
     testImplementation "junit:junit:$junit"

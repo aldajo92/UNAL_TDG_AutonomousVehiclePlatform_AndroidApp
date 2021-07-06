@@ -90,8 +90,7 @@ class ConfigurationDialog : DialogFragment() {
         }
     }
 
-
-    fun restartActivity() {
+    private fun restartActivity() {
         val intent = requireActivity().intent
         requireActivity().finish()
         startActivity(intent)

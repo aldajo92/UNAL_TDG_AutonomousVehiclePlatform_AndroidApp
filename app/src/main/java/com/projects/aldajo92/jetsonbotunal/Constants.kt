@@ -14,3 +14,5 @@ const val STREAMING_PATH = "/stream?topic=/camera_processing/camera/image_color/
 
 fun String.getSocketPath() = "$this$SOCKET_PATH"
 fun String.getVideoStreamingPath() = "$this$STREAMING_PATH"
+
+const val NUM_PAGES = 2
