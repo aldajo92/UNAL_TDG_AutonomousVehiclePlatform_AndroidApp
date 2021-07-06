@@ -18,24 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/verticalGuideline" />
 
-<!--    <com.github.mikephil.charting.charts.LineChart-->
-<!--        android:id="@+id/lineaChart_output"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/lineChart_input"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@id/verticalGuideline"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <com.github.mikephil.charting.charts.LineChart-->
-<!--        android:id="@+id/lineChart_input"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@id/verticalGuideline"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/lineaChart_output" />-->
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/verticalGuideline"
         android:layout_width="wrap_content"
