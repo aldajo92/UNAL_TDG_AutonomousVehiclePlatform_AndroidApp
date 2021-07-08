@@ -1,4 +1,4 @@
-package com.projects.aldajo92.jetsonbotunal.view
+package com.projects.aldajo92.jetsonbotunal.ui.views
 
 import android.graphics.Color
 import com.github.mikephil.charting.charts.LineChart

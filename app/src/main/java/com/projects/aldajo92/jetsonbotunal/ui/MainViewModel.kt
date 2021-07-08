@@ -1,4 +1,4 @@
-package com.projects.aldajo92.jetsonbotunal.main
+package com.projects.aldajo92.jetsonbotunal.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetsonBotUnal">
         <activity
-            android:name=".main.MainActivity"
+            android:name=".ui.MainActivity"
             android:imeOptions="flagNoExtractUi"
             android:windowSoftInputMode="adjustUnspecified"
             android:screenOrientation="userLandscape">

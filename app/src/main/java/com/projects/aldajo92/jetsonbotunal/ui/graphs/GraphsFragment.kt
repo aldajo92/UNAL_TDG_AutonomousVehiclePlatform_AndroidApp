@@ -1,4 +1,4 @@
-package com.projects.aldajo92.jetsonbotunal.main.graphs
+package com.projects.aldajo92.jetsonbotunal.ui.graphs
 
 import android.graphics.Color
 import android.os.Bundle
@@ -8,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.projects.aldajo92.jetsonbotunal.R
-import com.projects.aldajo92.jetsonbotunal.main.MainViewModel
-import com.projects.aldajo92.jetsonbotunal.view.SingleRealTimeWrapper
-import kotlinx.android.synthetic.main.fragment_graphs.view.lineChart_input
-import kotlinx.android.synthetic.main.fragment_graphs.view.lineaChart_output
+import com.projects.aldajo92.jetsonbotunal.databinding.FragmentGraphsBinding
+import com.projects.aldajo92.jetsonbotunal.ui.MainViewModel
+import com.projects.aldajo92.jetsonbotunal.ui.views.SingleRealTimeWrapper
 
 class GraphsFragment : Fragment() {
 
@@ -22,22 +20,28 @@ class GraphsFragment : Fragment() {
 
     private lateinit var lineChartInput: SingleRealTimeWrapper
 
+    private lateinit var binding: FragmentGraphsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_graphs, container, false)
+    ) = FragmentGraphsBinding.inflate(inflater, container, false)
+        .let {
+            binding = it
+            it.root
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         lineChartOutput =
             SingleRealTimeWrapper.getInstance(
-                view.lineaChart_output,
+                binding.lineChartOutput,
                 Color.rgb(200, 200, 200)
             )
 
         lineChartInput = SingleRealTimeWrapper.getInstance(
-            view.lineChart_input,
+            binding.lineChartInput,
             ColorTemplate.getHoloBlue()
         )
 

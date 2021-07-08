@@ -1,10 +1,8 @@
-package com.projects.aldajo92.jetsonbotunal.main
+package com.projects.aldajo92.jetsonbotunal.ui.configuration
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.projects.aldajo92.jetsonbotunal.R
@@ -23,11 +21,8 @@ class ConfigurationDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = activity?.let {
         val builder = AlertDialog.Builder(it)
-        // Get the layout inflater
         val inflater = requireActivity().layoutInflater
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         layoutView = inflater.inflate(R.layout.dialog_config, null)
         builder.setView(layoutView)
 
@@ -60,9 +55,7 @@ class ConfigurationDialog : DialogFragment() {
 
     private fun onRadioButtonClicked(view: View) {
         if (view is RadioButton) {
-            // Is the button now checked?
             val checked = view.isChecked
-            // Check which radio button was clicked
             when (view.getId()) {
                 R.id.radio_local_ip -> if (checked)
                     sharedPreferencesManager.saveIPConfiguration(SharedPreferencesManager.IPConfigurations.LOCAL_IP)

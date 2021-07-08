@@ -1,4 +1,4 @@
-package com.projects.aldajo92.jetsonbotunal.view
+package com.projects.aldajo92.jetsonbotunal.ui.views
 
 import android.graphics.Color
 import com.github.mikephil.charting.charts.LineChart
@@ -10,7 +10,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
 
-class MultiRealTimeWrapper(
+class MultiXYWrapper(
     private val chart: LineChart,
     private val colorLines: List<Int>
 ) {
@@ -48,7 +48,8 @@ class MultiRealTimeWrapper(
 
         val leftAxis: YAxis = chart.axisLeft
         leftAxis.textColor = Color.WHITE
-        leftAxis.granularity = 0.2f
+        leftAxis.granularity = 0.1f
+        leftAxis.setDrawLabels(false)
         leftAxis.setDrawGridLines(true)
 
         val rightAxis: YAxis = chart.axisRight
@@ -125,7 +126,7 @@ class MultiRealTimeWrapper(
 
     companion object {
         fun getInstance(chart: LineChart, colorLines: List<Int>) =
-            MultiRealTimeWrapper(chart, colorLines).apply {
+            MultiXYWrapper(chart, colorLines).apply {
                 configureChart()
             }
     }

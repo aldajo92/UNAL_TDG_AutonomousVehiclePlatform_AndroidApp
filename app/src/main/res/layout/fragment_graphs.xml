@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main.graphs.GraphsFragment">
+    tools:context=".ui.graphs.GraphsFragment">
 
     <TextView
         android:id="@+id/textView_title"
@@ -13,11 +13,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/lineaChart_output"
+        app:layout_constraintBottom_toTopOf="@id/line_chart_output"
         android:text="@string/hello_blank_fragment" />
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineaChart_output"
+        android:id="@+id/line_chart_output"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/lineChart_input"
@@ -32,6 +32,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lineaChart_output" />
+        app:layout_constraintTop_toBottomOf="@+id/line_chart_output" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

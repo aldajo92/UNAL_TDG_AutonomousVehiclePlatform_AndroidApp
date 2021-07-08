@@ -1,4 +1,4 @@
-package com.projects.aldajo92.jetsonbotunal.main
+package com.projects.aldajo92.jetsonbotunal.ui
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -16,8 +16,9 @@ import com.github.niqdev.mjpeg.OnFrameCapturedListener
 import com.projects.aldajo92.jetsonbotunal.R
 import com.projects.aldajo92.jetsonbotunal.api.SharedPreferencesManager
 import com.projects.aldajo92.jetsonbotunal.getVideoStreamingPath
+import com.projects.aldajo92.jetsonbotunal.ui.configuration.ConfigurationDialog
 import com.projects.aldajo92.jetsonbotunal.models.MoveRobotMessage
-import com.projects.aldajo92.jetsonbotunal.view.MultiXYWrapper
+import com.projects.aldajo92.jetsonbotunal.ui.views.MultiXYWrapper
 import kotlinx.android.synthetic.main.activity_main.floating_settings_button
 import kotlinx.android.synthetic.main.activity_main.lineChart_control
 import kotlinx.android.synthetic.main.activity_main.viewPager
@@ -33,20 +34,6 @@ import kotlin.concurrent.fixedRateTimer
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
-
-//    private val lineChartOutput by lazy {
-//        SingleRealTimeWrapper.getInstance(
-//            lineaChart_output,
-//            Color.rgb(200, 200, 200)
-//        )
-//    }
-//
-//    private val lineChartInput by lazy {
-//        SingleRealTimeWrapper.getInstance(
-//            lineChart_input,
-//            Color.rgb(244, 10, 10)
-//        )
-//    }
 
     private val realTimeWrapper by lazy {
         MultiXYWrapper.getInstance(
@@ -69,8 +56,6 @@ class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
         setContentView(R.layout.activity_main)
 
         mainViewModel.connectSocket(sharedPreferencesManager.getSelectedBaseUrl() ?: "")
-
-//        startVideoStream()
 
         floating_settings_button.setOnClickListener {
             val newFragment = ConfigurationDialog()
@@ -124,6 +109,7 @@ class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
             val joyLy = event.getAxisValue(MotionEvent.AXIS_Y)
             val joyRx = event.getAxisValue(MotionEvent.AXIS_Z)
 
+            // TODO: Move all related logic above to view model
             ly = if (abs(joyLy) >= minMovement) -joyLy else 0f
             rx = if (abs(joyRx) >= minMovement) -joyRx else 0f
 
@@ -177,6 +163,7 @@ class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
         videoView.setOnFrameCapturedListener(this)
     }
 
+    // TODO: handle frames on viewModel
     override fun onFrameCaptured(bitmap: Bitmap?) {
 
     }
