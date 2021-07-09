@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projects.aldajo92.jetsonbotunal.databinding.FragmentDataListBinding
 import com.projects.aldajo92.jetsonbotunal.ui.data.adapter.DataListAdapter
@@ -28,7 +29,8 @@ class DataListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewData.adapter = dataListAdapter
-        binding.recyclerViewData.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerViewData.layoutManager =
+            GridLayoutManager(view.context, 2, GridLayoutManager.VERTICAL, false)
 
         val list = listOf(
             DataModel(),

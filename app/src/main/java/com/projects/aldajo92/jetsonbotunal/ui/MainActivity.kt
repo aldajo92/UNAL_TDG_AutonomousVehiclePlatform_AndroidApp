@@ -1,6 +1,5 @@
 package com.projects.aldajo92.jetsonbotunal.ui
 
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -12,16 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.niqdev.mjpeg.DisplayMode
 import com.github.niqdev.mjpeg.MjpegInputStream
-import com.github.niqdev.mjpeg.OnFrameCapturedListener
 import com.projects.aldajo92.jetsonbotunal.R
 import com.projects.aldajo92.jetsonbotunal.api.SharedPreferencesManager
 import com.projects.aldajo92.jetsonbotunal.getVideoStreamingPath
-import com.projects.aldajo92.jetsonbotunal.ui.configuration.ConfigurationDialog
 import com.projects.aldajo92.jetsonbotunal.models.MoveRobotMessage
+import com.projects.aldajo92.jetsonbotunal.ui.configuration.ConfigurationDialog
 import com.projects.aldajo92.jetsonbotunal.ui.views.MultiXYWrapper
 import kotlinx.android.synthetic.main.activity_main.floating_settings_button
 import kotlinx.android.synthetic.main.activity_main.lineChart_control
-import kotlinx.android.synthetic.main.activity_main.viewPager
 import kotlinx.android.synthetic.main.activity_main.progress_x
 import kotlinx.android.synthetic.main.activity_main.progress_y
 import kotlinx.android.synthetic.main.activity_main.videoView
@@ -29,11 +26,12 @@ import kotlinx.android.synthetic.main.activity_main.view.progressbar_x_neg
 import kotlinx.android.synthetic.main.activity_main.view.progressbar_x_pos
 import kotlinx.android.synthetic.main.activity_main.view.progressbar_y_neg
 import kotlinx.android.synthetic.main.activity_main.view.progressbar_y_pos
+import kotlinx.android.synthetic.main.activity_main.viewPager
 import java.util.Timer
 import kotlin.concurrent.fixedRateTimer
 import kotlin.math.abs
 
-class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
+class MainActivity : AppCompatActivity() {
 
     private val realTimeWrapper by lazy {
         MultiXYWrapper.getInstance(
@@ -78,7 +76,7 @@ class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
 
     override fun onResume() {
         super.onResume()
-//        startVideoStream()
+        startVideoStream()
     }
 
     private fun runCommandTimer(value: Any): Timer = fixedRateTimer(
@@ -146,7 +144,7 @@ class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
 
     private fun startVideoStream() {
         sharedPreferencesManager.getSelectedBaseUrl()?.let {
-            mainViewModel.getMjpegObserver(it.getVideoStreamingPath())
+            mainViewModel.getMJPEJObserver(it.getVideoStreamingPath())
                 .subscribe({ inputStream: MjpegInputStream? ->
                     videoView.setSource(inputStream)
                     videoView.setDisplayMode(DisplayMode.BEST_FIT)
@@ -160,12 +158,7 @@ class MainActivity : AppCompatActivity(), OnFrameCapturedListener {
                 })
         }
 
-        videoView.setOnFrameCapturedListener(this)
-    }
-
-    // TODO: handle frames on viewModel
-    override fun onFrameCaptured(bitmap: Bitmap?) {
-
+        videoView.setOnFrameCapturedListener(mainViewModel)
     }
 
 }

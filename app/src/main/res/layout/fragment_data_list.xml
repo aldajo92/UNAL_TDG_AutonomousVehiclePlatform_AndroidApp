@@ -6,14 +6,14 @@
     android:orientation="vertical"
     tools:context=".ui.graphs.GraphsFragment">
 
-    <TextView style="?android:textAppearanceMedium"
-        android:padding="16dp"
-        android:lineSpacingMultiplier="1.2"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="DataList" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/recycler_view_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

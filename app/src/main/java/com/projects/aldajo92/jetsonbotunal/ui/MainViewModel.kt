@@ -1,19 +1,20 @@
 package com.projects.aldajo92.jetsonbotunal.ui
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.niqdev.mjpeg.Mjpeg
+import com.github.niqdev.mjpeg.MjpegInputStream
+import com.github.niqdev.mjpeg.OnFrameCapturedListener
 import com.projects.aldajo92.jetsonbotunal.api.SocketManager
 import com.projects.aldajo92.jetsonbotunal.models.RobotVelocityEncoder
+import rx.Observable
 
-class MainViewModel : ViewModel(), SocketManager.SocketListener {
+class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCapturedListener {
 
     private val _velocityLiveData = MutableLiveData<RobotVelocityEncoder>()
     val velocityLiveData: LiveData<RobotVelocityEncoder> get() = _velocityLiveData
-
-    private val _encoderLiveData = MutableLiveData(0f)
-    val encoderLiveData: LiveData<Float> get() = _encoderLiveData
 
     private val mjpegView by lazy {
         Mjpeg.newInstance()
@@ -34,12 +35,13 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener {
         socketManager.disconnect()
     }
 
-    fun getMjpegObserver(urlPath: String) = mjpegView.open(urlPath, 100)
+    fun getMJPEJObserver(urlPath: String): Observable<MjpegInputStream> = mjpegView.open(urlPath, 100)
 
     override fun onDataReceived(robotVelocityEncoder: RobotVelocityEncoder) {
         _velocityLiveData.postValue(robotVelocityEncoder)
-//        _velocityLiveData.value = robotVelocityEncoder.velocityEncoder
-//        lineChartOutput.addEntry(robotVelocityEncoder.velocityEncoder)
-//        lineChartInput.addEntry(robotVelocityEncoder.input)
+    }
+
+    override fun onFrameCaptured(bitmap: Bitmap?) {
+
     }
 }
