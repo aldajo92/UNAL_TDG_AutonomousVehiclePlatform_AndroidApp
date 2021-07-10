@@ -3,52 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="5dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
-    <View
+    <ImageView
         android:id="@+id/image_view"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="5:3"
-        tools:background="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/black" />
 
     <TextView
         android:id="@+id/image_view_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Title"
         android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/image_view_velocity"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/image_view_steering"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/image_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
 
     <TextView
-        android:id="@+id/image_view_velocity"
+        android:id="@+id/image_view_steering"
         android:layout_width="0dp"
-        android:text="subtitle"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/image_view_direction"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/image_view_throttle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/image_view_title"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_title" />
+        app:layout_constraintTop_toBottomOf="@+id/image_view_title"
+        tools:text="@string/steering" />
 
     <TextView
-        android:id="@+id/image_view_direction"
+        android:id="@+id/image_view_throttle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="data"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/image_view_title"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_velocity" />
+        app:layout_constraintTop_toBottomOf="@+id/image_view_steering" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -92,7 +92,7 @@ class SingleRealTimeWrapper(
         set.highLightColor = Color.rgb(244, 117, 117)
         set.valueTextColor = Color.WHITE
         set.valueTextSize = 9f
-        set.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
+        set.mode = LineDataSet.Mode.STEPPED
         set.setDrawValues(false)
         return set
     }

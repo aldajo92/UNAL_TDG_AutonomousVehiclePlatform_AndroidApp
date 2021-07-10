@@ -2,6 +2,7 @@ package com.projects.aldajo92.jetsonbotunal.models
 
 data class RobotVelocityEncoder(
     val velocityEncoder: Float,
+    val direction: Float,
     val input: Float
 )
 

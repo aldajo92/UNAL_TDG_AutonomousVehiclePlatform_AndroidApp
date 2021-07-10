@@ -4,25 +4,30 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.projects.aldajo92.jetsonbotunal.R
+import com.projects.aldajo92.jetsonbotunal.databinding.ItemDataBinding
 
 class DataListAdapter : RecyclerView.Adapter<ItemHolder>() {
 
-    private lateinit var dataModelList: List<DataModel>
+    private var dataImageModelList: List<DataImageModel> = emptyList()
 
-    fun setItems(list: List<DataModel>) {
-        dataModelList = list
+    fun setItems(list: List<DataImageModel>) {
+        dataImageModelList = list
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_data, parent, false)
-        return ItemHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ItemHolder(
+            ItemDataBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.bindData(dataModelList[position])
+        holder.bindData(dataImageModelList[position])
     }
 
-    override fun getItemCount() = dataModelList.size
+    override fun getItemCount() = dataImageModelList.size
 }
 

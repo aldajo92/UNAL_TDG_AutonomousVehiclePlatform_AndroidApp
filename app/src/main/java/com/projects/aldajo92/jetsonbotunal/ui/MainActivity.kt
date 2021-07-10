@@ -17,6 +17,7 @@ import com.projects.aldajo92.jetsonbotunal.getVideoStreamingPath
 import com.projects.aldajo92.jetsonbotunal.models.MoveRobotMessage
 import com.projects.aldajo92.jetsonbotunal.ui.configuration.ConfigurationDialog
 import com.projects.aldajo92.jetsonbotunal.ui.views.MultiXYWrapper
+import kotlinx.android.synthetic.main.activity_main.floating_button_play
 import kotlinx.android.synthetic.main.activity_main.floating_settings_button
 import kotlinx.android.synthetic.main.activity_main.lineChart_control
 import kotlinx.android.synthetic.main.activity_main.progress_x
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private var captureTimer: Timer? = null
+
     private val mainViewModel: MainViewModel by viewModels()
 
     private val sharedPreferencesManager by lazy {
@@ -58,6 +61,11 @@ class MainActivity : AppCompatActivity() {
         floating_settings_button.setOnClickListener {
             val newFragment = ConfigurationDialog()
             newFragment.show(supportFragmentManager, "configuration")
+        }
+
+        floating_button_play.setOnClickListener {
+            captureTimer = if (captureTimer == null) mainViewModel.runCaptureTimer()
+            else captureTimer?.let { it.cancel(); null }
         }
 
         val pagerAdapter = ScreenSlidePagerAdapter(this)
