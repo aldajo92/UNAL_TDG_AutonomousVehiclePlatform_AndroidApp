@@ -60,10 +60,17 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCaptured
         this.bitmapFrame = bitmap
     }
 
-    private fun saveImageTimer() {
+    fun saveAllImage(path: String) {
         viewModelScope.launch {
             launch(IO) {
-                bitmapFrame?.let { saveImage(it, "image_${Date().time}") }
+                dataList.forEach { dataImageModel ->
+                    dataImageModel.bitmap?.let {
+                        saveImage(
+                            it,
+                            "$path/image_${dataImageModel.timeStamp}.jpg"
+                        )
+                    }
+                }
             }
         }
     }

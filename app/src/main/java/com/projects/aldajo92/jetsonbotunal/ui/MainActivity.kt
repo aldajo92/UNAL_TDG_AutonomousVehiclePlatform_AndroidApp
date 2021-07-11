@@ -61,6 +61,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.floatingButtonPlay.setOnClickListener { triggerCaptureTimer() }
 
+        binding.floatingButtonSave.setOnClickListener { mainViewModel.saveAllImage(filesDir.path) }
+
         binding.seekBarVelocity.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
