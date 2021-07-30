@@ -6,6 +6,7 @@ const val ROBOT_COMMAND = "robot-command"
 const val KEY_URL = "aldajo92.URL"
 const val KEY_URL_LOCAL_IP = "aldajo92.URL_LOCAL"
 const val KEY_URL_REMOTE = "aldajo92.URL_REMOTE"
+const val KEY_SAMPLE_TIME = "aldajo92.SAMPLE_TIME"
 
 const val VALUE_URL_LOCAL_IP = "http://192.168.0.123:80"
 const val VALUE_URL_REMOTE = "https://jetsonbotunal.ngrok.io"

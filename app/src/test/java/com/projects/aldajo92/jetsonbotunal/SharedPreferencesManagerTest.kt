@@ -15,7 +15,7 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 class SharedPreferencesManagerTest {
 
-    private lateinit var context : Context
+    private lateinit var context: Context
 
     private lateinit var sharedPreferencesManager: SharedPreferencesManager
 
@@ -51,6 +51,14 @@ class SharedPreferencesManagerTest {
 
         assertEquals("192.169.89.1", sharedPreferencesManager.getBaseUrl(localIP))
         assertEquals("http://example.com", sharedPreferencesManager.getBaseUrl(remote))
+    }
+
+    @Test
+    fun whenSaveSampleTime_thenItStoresCorrectly() {
+        val sampleTime = 500
+        sharedPreferencesManager.saveVideoSampleTime(sampleTime)
+
+        assertEquals(500, sharedPreferencesManager.getStoredVideoSampleTime())
     }
 
 }

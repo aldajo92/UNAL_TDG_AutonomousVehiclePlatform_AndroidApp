@@ -23,6 +23,9 @@ import com.projects.aldajo92.jetsonbotunal.getVideoStreamingPath
 import com.projects.aldajo92.jetsonbotunal.models.MoveRobotMessage
 import com.projects.aldajo92.jetsonbotunal.ui.configuration.ConfigurationDialog
 import com.projects.aldajo92.jetsonbotunal.ui.views.MultiXYWrapper
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import java.util.Timer
 import kotlin.concurrent.fixedRateTimer
 import kotlin.math.abs
@@ -61,7 +64,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.floatingButtonPlay.setOnClickListener { triggerCaptureTimer() }
 
-        binding.floatingButtonSave.setOnClickListener { mainViewModel.saveAllImage(filesDir.path) }
+        binding.floatingButtonSave.setOnClickListener {
+            val date = SimpleDateFormat(
+                "yyyyMMdd_hhmmss",
+                Locale.getDefault()
+            ).format(Calendar.getInstance().time)
+
+            mainViewModel.saveAllImage(
+                "${filesDir.path}/$date"
+            )
+        }
 
         binding.seekBarVelocity.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -89,7 +101,9 @@ class MainActivity : AppCompatActivity() {
             binding.floatingButtonPlay.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(this, R.color.custom_red)
             )
-            mainViewModel.runCaptureTimer()
+            mainViewModel.runCaptureTimer(
+                sharedPreferencesManager.getStoredVideoSampleTime().toLong()
+            )
         } else {
             binding.floatingButtonPlay.backgroundTintList = ColorStateList.valueOf(
                 getThemeAccentColor(this)

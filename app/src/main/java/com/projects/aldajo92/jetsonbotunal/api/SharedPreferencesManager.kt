@@ -2,6 +2,7 @@ package com.projects.aldajo92.jetsonbotunal.api
 
 import android.content.Context
 import androidx.preference.PreferenceManager
+import com.projects.aldajo92.jetsonbotunal.KEY_SAMPLE_TIME
 import com.projects.aldajo92.jetsonbotunal.KEY_URL
 import com.projects.aldajo92.jetsonbotunal.KEY_URL_LOCAL_IP
 import com.projects.aldajo92.jetsonbotunal.KEY_URL_REMOTE
@@ -23,6 +24,12 @@ class SharedPreferencesManager(private val context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context)
     }
 
+    fun saveVideoSampleTime(time: Int) {
+        saveKeyIntValue(KEY_SAMPLE_TIME, time)
+    }
+
+    fun getStoredVideoSampleTime() = sharedPreferences.getInt(KEY_SAMPLE_TIME, 500)
+
     fun saveIPConfiguration(ipConfigurations: IPConfigurations) {
         when (ipConfigurations) {
             IPConfigurations.REMOTE -> saveKeyValue(KEY_URL, KEY_URL_REMOTE)
@@ -37,11 +44,13 @@ class SharedPreferencesManager(private val context: Context) {
         }
 
     fun getBaseUrl(ipConfigurations: IPConfigurations) =
-        sharedPreferences.getString(ipConfigurations.value,
-        when(ipConfigurations){
-            IPConfigurations.LOCAL_IP -> VALUE_URL_LOCAL_IP
-            IPConfigurations.REMOTE -> VALUE_URL_REMOTE
-        })
+        sharedPreferences.getString(
+            ipConfigurations.value,
+            when (ipConfigurations) {
+                IPConfigurations.LOCAL_IP -> VALUE_URL_LOCAL_IP
+                IPConfigurations.REMOTE -> VALUE_URL_REMOTE
+            }
+        )
 
     fun getSelectedBaseUrl(): String? {
         return getBaseUrl(getStoredIPConfiguration())
@@ -57,6 +66,12 @@ class SharedPreferencesManager(private val context: Context) {
     private fun saveKeyValue(key: String, value: String) {
         sharedPreferences.edit()
             .putString(key, value)
+            .apply()
+    }
+
+    private fun saveKeyIntValue(key: String, value: Int) {
+        sharedPreferences.edit()
+            .putInt(key, value)
             .apply()
     }
 

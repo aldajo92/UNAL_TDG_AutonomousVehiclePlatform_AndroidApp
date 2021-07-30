@@ -97,6 +97,8 @@ dependencies {
     implementation 'com.konaire.numeric-keyboard:numeric-keyboard:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    implementation "com.opencsv:opencsv:4.0"
+
     testImplementation "androidx.test:core:$androidx_core"
     testImplementation "junit:junit:$junit"
     testImplementation "org.robolectric:robolectric:$robolectric"

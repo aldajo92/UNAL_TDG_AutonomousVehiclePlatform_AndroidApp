@@ -8,14 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.github.niqdev.mjpeg.Mjpeg
 import com.github.niqdev.mjpeg.MjpegInputStream
 import com.github.niqdev.mjpeg.OnFrameCapturedListener
+import com.opencsv.CSVWriter
 import com.projects.aldajo92.jetsonbotunal.api.SocketManager
 import com.projects.aldajo92.jetsonbotunal.models.RobotVelocityEncoder
 import com.projects.aldajo92.jetsonbotunal.ui.data.adapter.DataImageModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import rx.Observable
+import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStreamWriter
+import java.nio.charset.StandardCharsets
 import java.util.Date
 import kotlin.concurrent.fixedRateTimer
 
@@ -61,6 +65,9 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCaptured
     }
 
     fun saveAllImage(path: String) {
+        File(path).mkdir()
+
+        // https://blog.mindorks.com/parallel-multiple-network-calls-using-kotlin-coroutines
         viewModelScope.launch {
             launch(IO) {
                 dataList.forEach { dataImageModel ->
@@ -72,10 +79,27 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCaptured
                     }
                 }
             }
+
+            // https://zetcode.com/java/opencsv/
+            launch(IO) {
+                val list = dataList.map { dataImageModel ->
+                    arrayListOf(
+                        "image_${dataImageModel.timeStamp}.jpg",
+                        dataImageModel.timeStamp.toString(),
+                        dataImageModel.steering.toString(),
+                        dataImageModel.throttle.toString()
+                    ).toTypedArray()
+                }
+                saveCSVFile(
+                    list,
+                    path,
+                    "metadata_${dataList.first().timeStamp}_${dataList.last().timeStamp}"
+                )
+            }
         }
     }
 
-    fun runCaptureTimer() = fixedRateTimer("timer", true, 0, 1000) {
+    fun runCaptureTimer(sampleTime: Long) = fixedRateTimer("timer", true, 0, sampleTime) {
         saveInstantImage()
     }
 
@@ -102,6 +126,17 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCaptured
             }
         } catch (e: IOException) {
             e.printStackTrace()
+        }
+    }
+
+    private fun saveCSVFile(list: List<Array<String>>, path: String, filename: String) {
+        val file = File(path, "$filename.csv")
+        FileOutputStream(file).use { fos ->
+            OutputStreamWriter(fos, StandardCharsets.UTF_8).use { osw ->
+                CSVWriter(osw).use { writer ->
+                    writer.writeAll(list)
+                }
+            }
         }
     }
 
