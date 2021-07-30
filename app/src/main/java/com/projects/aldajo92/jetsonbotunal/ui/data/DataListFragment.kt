@@ -19,6 +19,10 @@ class DataListFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
+    private val layoutManager by lazy {
+        GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,14 +35,19 @@ class DataListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewData.adapter = dataListAdapter
-        binding.recyclerViewData.layoutManager =
-            GridLayoutManager(view.context, 2, GridLayoutManager.VERTICAL, false)
+        binding.recyclerViewData.layoutManager = layoutManager
 
-        mainViewModel.dataListLiveData.observe(viewLifecycleOwner, { dataImageModel ->
+        mainViewModel.dataImageLiveData.observe(viewLifecycleOwner, { dataImageModel ->
             dataImageModel?.let {
-                dataListAdapter.setItems(it)
+                dataListAdapter.setItem(it)
+                binding.recyclerViewData.smoothScrollToPosition(dataListAdapter.itemCount - 1)
             }
         })
+//        mainViewModel.dataListLiveData.observe(viewLifecycleOwner, { dataImageModel ->
+//            dataImageModel?.let {
+//                dataListAdapter.setItems(it)
+//            }
+//        })
 
     }
 }

@@ -8,11 +8,16 @@ import com.projects.aldajo92.jetsonbotunal.databinding.ItemDataBinding
 
 class DataListAdapter : RecyclerView.Adapter<ItemHolder>() {
 
-    private var dataImageModelList: List<DataImageModel> = emptyList()
+    private var dataImageModelList = mutableListOf<DataImageModel>()
 
     fun setItems(list: List<DataImageModel>) {
-        dataImageModelList = list
+        dataImageModelList = list.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun setItem(item: DataImageModel) {
+        dataImageModelList.add(item)
+        notifyItemInserted(dataImageModelList.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

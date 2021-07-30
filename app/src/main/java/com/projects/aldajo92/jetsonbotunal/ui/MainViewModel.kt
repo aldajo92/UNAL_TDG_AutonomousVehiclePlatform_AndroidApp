@@ -28,6 +28,9 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCaptured
     private val _velocityLiveData = MutableLiveData<RobotVelocityEncoder>()
     val velocityLiveData: LiveData<RobotVelocityEncoder> get() = _velocityLiveData
 
+    private val _dataImageLiveData = MutableLiveData<DataImageModel>()
+    val dataImageLiveData: LiveData<DataImageModel> get() = _dataImageLiveData
+
     private val _dataListLiveData = MutableLiveData<List<DataImageModel>>()
     val dataListLiveData: LiveData<List<DataImageModel>> get() = _dataListLiveData
     private val dataList = mutableListOf<DataImageModel>()
@@ -107,16 +110,17 @@ class MainViewModel : ViewModel(), SocketManager.SocketListener, OnFrameCaptured
         val velocityValue = velocityLiveData.value?.velocityEncoder
         val directionValue = velocityLiveData.value?.direction
 
-        dataList.add(
-            DataImageModel(
-                bitmapFrame,
-                Date().time,
-                velocityValue ?: 0f,
-                directionValue ?: 0f
-            )
+        val dataImageModel = DataImageModel(
+            bitmapFrame,
+            Date().time,
+            velocityValue ?: 0f,
+            directionValue ?: 0f
         )
+        dataList.add(dataImageModel)
 
-        _dataListLiveData.postValue(dataList.toList())
+        _dataImageLiveData.postValue(dataImageModel)
+
+//        _dataListLiveData.postValue(dataList.toList())
     }
 
     private fun saveImage(bitmap: Bitmap, filename: String) {
