@@ -10,8 +10,8 @@ import com.projects.aldajo92.jetsonbotunal.api.SharedPreferencesManager
 import kotlinx.android.synthetic.main.dialog_config.view.button_restart
 import kotlinx.android.synthetic.main.dialog_config.view.editText_local_ip
 import kotlinx.android.synthetic.main.dialog_config.view.editText_remote
-import kotlinx.android.synthetic.main.dialog_config.view.radio_remote
 import kotlinx.android.synthetic.main.dialog_config.view.radio_local_ip
+import kotlinx.android.synthetic.main.dialog_config.view.radio_remote
 
 class ConfigurationDialog : DialogFragment() {
 
@@ -78,8 +78,8 @@ class ConfigurationDialog : DialogFragment() {
     }
 
     private fun onButtonClicked(view: View) {
-        if (view.id == R.id.button_restart) {
-            restartActivity()
+        when(view.id){
+            R.id.button_restart -> restartActivity()
         }
     }
 
