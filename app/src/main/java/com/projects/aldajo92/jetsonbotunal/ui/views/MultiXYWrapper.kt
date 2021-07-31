@@ -9,7 +9,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
-
 class MultiXYWrapper(
     private val chart: LineChart,
     private val colorLines: List<Int>

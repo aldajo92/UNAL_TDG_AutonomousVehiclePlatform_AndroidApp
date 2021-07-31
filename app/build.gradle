@@ -55,6 +55,7 @@ ext {
     gson = "2.8.6"
     socketio = "2.0.0"
     mpandroidchart = "v3.0.2"
+    opencsv = "4.0"
 
     ipcamview = "2.1.0"
 
@@ -87,14 +88,13 @@ dependencies {
 
     // mpAndroidChart
     implementation "com.github.PhilJay:MPAndroidChart:$mpandroidchart"
+    implementation "com.opencsv:opencsv:$opencsv"
 
 //    implementation 'com.github.faizkhan12:mjpeg-view-android-kotlin:v1.0.0'
 //    implementation 'com.github.perthcpe23:android-mjpeg-view:v1.0.9'
 
     implementation "com.github.niqdev:ipcam-view:$ipcamview"
     implementation 'androidx.preference:preference-ktx:1.1.1'
-
-    implementation "com.opencsv:opencsv:4.0"
 
     testImplementation "androidx.test:core:$androidx_core"
     testImplementation "junit:junit:$junit"
