@@ -35,4 +35,3 @@ class DataListAdapter : RecyclerView.Adapter<ItemHolder>() {
 
     override fun getItemCount() = dataImageModelList.size
 }
-

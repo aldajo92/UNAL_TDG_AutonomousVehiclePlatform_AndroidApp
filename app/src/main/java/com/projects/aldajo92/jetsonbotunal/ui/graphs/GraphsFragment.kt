@@ -45,8 +45,6 @@ class GraphsFragment : Fragment() {
             ColorTemplate.getHoloBlue()
         )
 
-//        binding.lineChartInput.xAxis?.lister
-
         mainViewModel.velocityLiveData.observe(viewLifecycleOwner, { velocityEncoder ->
             velocityEncoder?.let {
                 lineChartOutput.addEntry(velocityEncoder.velocityEncoder)

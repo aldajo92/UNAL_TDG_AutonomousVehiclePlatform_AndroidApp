@@ -43,11 +43,5 @@ class DataListFragment : Fragment() {
                 binding.recyclerViewData.smoothScrollToPosition(dataListAdapter.itemCount - 1)
             }
         })
-//        mainViewModel.dataListLiveData.observe(viewLifecycleOwner, { dataImageModel ->
-//            dataImageModel?.let {
-//                dataListAdapter.setItems(it)
-//            }
-//        })
-
     }
 }
